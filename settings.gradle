@@ -30,6 +30,7 @@ if (System.properties["java.version"].startsWith("9")) {
 include "subprojects/testfx-core"
 include "subprojects/testfx-junit"
 include "subprojects/testfx-junit5"
+include "subprojects/testfx-assertj"
 
 // Location of each subproject's build file
 rootProject.children.each { project ->

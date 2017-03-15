@@ -51,4 +51,11 @@ public class ApplicationRuleTest {
         verifyThat(".button", hasText("clicked!"));
     }
 
+    @Test
+    public void should_contain_button_fails() {
+        System.out.println("Inside failing test");
+        // expect:
+        verifyThat(".button", hasText("non-existent text"));
+    }
+
 }

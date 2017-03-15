@@ -483,6 +483,21 @@ public class FxRobot implements FxRobotInterface {
         }
     }
 
+    @Override
+    public void saveCapture(Rectangle2D screenRegion, Path path) {
+        context.getCaptureSupport().saveImage(capture(screenRegion).getImage(), path);
+    }
+
+    @Override
+    public void saveCapture(Bounds bounds, Path path) {
+        context.getCaptureSupport().saveImage(capture(bounds).getImage(), path);
+    }
+
+    @Override
+    public void saveCapture(Node node, Path path) {
+        context.getCaptureSupport().saveImage(capture(node).getImage(), path);
+    }
+
     //---------------------------------------------------------------------------------------------
     // METHODS FOR INTERACTION AND INTERRUPTION.
     //---------------------------------------------------------------------------------------------

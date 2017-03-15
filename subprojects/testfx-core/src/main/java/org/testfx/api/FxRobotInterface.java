@@ -427,6 +427,21 @@ public interface FxRobotInterface {
      */
     public Capture capture(URL url);
 
+    /**
+     * Saves a screenshot of the given rectangle's bounds to the given {@link java.nio.file.Path}.
+     */
+    public void saveCapture(Rectangle2D screenRegion, Path path);
+
+    /**
+     * Saves a screenshot of the given bounds to the given {@link java.nio.file.Path}.
+     */
+    public void saveCapture(Bounds bounds, Path path);
+
+    /**
+     * Saves a screenshot of the given node's bounds to the given {@link java.nio.file.Path}.
+     */
+    public void saveCapture(Node node, Path path);
+
     //---------------------------------------------------------------------------------------------
     // METHODS FOR INTERACTION AND INTERRUPTION.
     //---------------------------------------------------------------------------------------------

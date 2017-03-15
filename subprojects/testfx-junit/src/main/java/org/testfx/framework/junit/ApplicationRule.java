@@ -16,17 +16,24 @@
  */
 package org.testfx.framework.junit;
 
+import java.awt.image.BufferedImage;
+import java.nio.file.Paths;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.function.Consumer;
+
+import javafx.geometry.Rectangle2D;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import org.junit.AssumptionViolatedException;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 
-public class ApplicationRule extends FxRobot
-        implements ApplicationFixture, TestRule {
+public class ApplicationRule extends FxRobot implements ApplicationFixture, TestRule {
 
     private final Consumer<Stage> start;
 
@@ -49,6 +56,40 @@ public class ApplicationRule extends FxRobot
         // do nothing
     }
 
+    /**
+     * Invoked when a test succeeds.
+     */
+    protected void succeeded(Description description) {
+        // do nothing
+    }
+
+    /**
+     * Invoked when a test fails.
+     */
+    protected void failed(Throwable e, Description description) throws Throwable {
+        DateTimeFormatter errorFormatter = DateTimeFormatter.ofPattern(System.getProperty(
+                "testfx.capture.datetimeformat", "yyyyMMdd.HHmmss.SSS"));
+        Rectangle2D primaryScreenRegion = Screen.getPrimary().getBounds();
+        ZonedDateTime errorDateTime = ZonedDateTime.now();
+        saveCapture(primaryScreenRegion, Paths.get(description.getDisplayName() + "-" +
+                errorFormatter.format(errorDateTime) + ".png"));
+        throw e;
+    }
+
+    /**
+     * Invoked when a test is skipped due to a failed assumption.
+     */
+    protected void skipped(AssumptionViolatedException e, Description description) {
+        // do nothing
+    }
+
+    /**
+     * Invoked when a test method finishes (whether passing or failing).
+     */
+    protected void finished(Description description) {
+        // do nothing
+    }
+
     private void before() throws Exception {
         FxToolkit.registerPrimaryStage();
         FxToolkit.setupApplication(() -> new ApplicationAdapter(this));
@@ -58,23 +99,25 @@ public class ApplicationRule extends FxRobot
         FxToolkit.cleanupApplication(new ApplicationAdapter(this));
     }
 
-    private Statement externalResource(final Statement base) {
+    @Override
+    public Statement apply(Statement base, Description description) {
         return new Statement() {
             @Override
             public void evaluate() throws Throwable {
                 before();
                 try {
                     base.evaluate();
+                    succeeded(description);
+                } catch (AssumptionViolatedException  e) {
+                    skipped(e, description);
+                } catch (Throwable e) {
+                    failed(e, description);
                 } finally {
+                    finished(description);
                     after();
                 }
             }
         };
-    }
-
-    @Override
-    public Statement apply(Statement base, Description description) {
-        return externalResource(base);
     }
 
 }

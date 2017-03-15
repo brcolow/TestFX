@@ -16,10 +16,12 @@
  */
 package org.testfx.framework.junit;
 
-import java.awt.image.BufferedImage;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 import javafx.geometry.Rectangle2D;
@@ -36,9 +38,11 @@ import org.testfx.api.FxToolkit;
 public class ApplicationRule extends FxRobot implements ApplicationFixture, TestRule {
 
     private final Consumer<Stage> start;
+    private final List<String> failedTests;
 
     public ApplicationRule(Consumer<Stage> start) {
         this.start = start;
+        failedTests = new ArrayList<>();
     }
 
     @Override
@@ -67,12 +71,32 @@ public class ApplicationRule extends FxRobot implements ApplicationFixture, Test
      * Invoked when a test fails.
      */
     protected void failed(Throwable e, Description description) throws Throwable {
-        DateTimeFormatter errorFormatter = DateTimeFormatter.ofPattern(System.getProperty(
-                "testfx.capture.datetimeformat", "yyyyMMdd.HHmmss.SSS"));
+        boolean timestamp = Boolean.getBoolean(System.getProperty("testfx.capture.timestamp", "true"));
+
+        StringBuilder capturePathBuilder = new StringBuilder();
+        capturePathBuilder.append("capture-");
+
+        if (failedTests.contains(description.getMethodName())) {
+            // dis-ambiguate test failures with same method names
+            capturePathBuilder.append(description.getClassName()).append('#');
+        }
+
+        capturePathBuilder.append(description.getMethodName());
+
+        if (timestamp) {
+            DateTimeFormatter errorFormatter = DateTimeFormatter.ofPattern(System.getProperty(
+                    "testfx.capture.datetimeformat", "yyyyMMdd.HHmmss.SSS"));
+            ZonedDateTime errorDateTime = ZonedDateTime.now();
+            capturePathBuilder.append('-').append(errorFormatter.format(errorDateTime));
+        }
+
+        capturePathBuilder.append(".png");
+        Path capturePath = Paths.get(capturePathBuilder.toString());
         Rectangle2D primaryScreenRegion = Screen.getPrimary().getBounds();
-        ZonedDateTime errorDateTime = ZonedDateTime.now();
-        saveCapture(primaryScreenRegion, Paths.get(description.getDisplayName() + "-" +
-                errorFormatter.format(errorDateTime) + ".png"));
+        saveCapture(primaryScreenRegion, capturePath);
+        failedTests.add(description.getMethodName());
+        System.err.println("Test failure: " + description.getClassName() + '#' + description.getMethodName());
+        System.err.println("Screenshot saved to: " + capturePath.toAbsolutePath());
         throw e;
     }
 

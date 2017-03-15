@@ -163,7 +163,8 @@ subprojects { subproject ->
             // Fancy formatting from http://stackoverflow.com/a/36130467/3634630
             // set options for log level LIFECYCLE
             events TestLogEvent.PASSED, TestLogEvent.SKIPPED,
-                TestLogEvent.FAILED, TestLogEvent.STANDARD_OUT
+                TestLogEvent.FAILED, TestLogEvent.STANDARD_OUT,
+                TestLogEvent.STANDARD_ERROR
             showExceptions true
             exceptionFormat TestExceptionFormat.FULL
             showCauses true

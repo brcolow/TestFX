@@ -73,6 +73,12 @@ public class ApplicationLaunchTest extends FxRobot {
     }
 
     @Test
+    public void should_contain_button_fails() {
+        // expect:
+        verifyThat(".button", hasText("blahblahblah"));
+    }
+
+    @Test
     public void should_click_on_button() {
         // when:
         clickOn(".button");

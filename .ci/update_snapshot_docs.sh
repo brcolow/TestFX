@@ -20,6 +20,7 @@ if [ "$TRAVIS_REPO_SLUG" == "TestFX/TestFX" ] && \
   for project in ${projects};
   do
     cp -R "$HOME"/build/TestFX/TestFX/subprojects/"$project"/build/docs/javadoc "$HOME"/javadoc-"$project"
+    cd "$HOME"/gh-pages
     git rm -rf "$HOME"/gh-pages/javadoc/"$project"
     cp -Rf "$HOME"/javadoc-"$project" "$HOME"/gh-pages/javadoc
   done

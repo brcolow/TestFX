@@ -25,7 +25,7 @@ import org.testfx.framework.junit.ApplicationTest;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.testfx.Assertions.assertThat;
+import static org.testfx.api.Assertions.assertThat;
 
 /**
  * Tests for NodeAssert.

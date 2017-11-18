@@ -1,6 +1,6 @@
 /*
  * Copyright 2013-2014 SmartBear Software
- * Copyright 2014-2015 The TestFX Contributors
+ * Copyright 2014-2017 The TestFX Contributors
  *
  * Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the
  * European Commission - subsequent versions of the EUPL (the "Licence"); You may
@@ -15,16 +15,10 @@
  * specific language governing permissions and limitations under the Licence.
  */
 
-package org.testfx;
-
-import javafx.scene.Node;
+package org.testfx.api;
 
 /**
- * The entry point for all TestFX assertions.
+ * Assertions for JavaFX {@link javafx.geometry.Dimension2D} type.
  */
-public class Assertions {
-    public static NodeAssert assertThat(Node node) {
-        return new NodeAssert(NodeAssert.class, node);
-    }
+public class GeometryAssert {
 }
-

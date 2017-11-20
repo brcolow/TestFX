@@ -21,9 +21,11 @@ public class RegionAssertTest extends ApplicationTest {
     public void shouldHaveWidth() throws Exception {
         // given:
         Pane stackPane = FxToolkit.setupFixture(() -> new StackPane());
+
+        // when:
         stackPane.setPrefWidth(50);
 
-        // expect:
+        // then:
         assertThat(stackPane).hasWidth(50);
     }
 }

@@ -17,7 +17,9 @@
 
 package org.testfx.api;
 
+import javafx.css.Styleable;
 import javafx.scene.Node;
+import javafx.scene.layout.Region;
 
 /**
  * The entry point for all TestFX assertions.
@@ -26,7 +28,15 @@ public class Assertions extends org.assertj.core.api.Assertions {
     protected Assertions() {}
 
     public static NodeAssert assertThat(Node node) {
-        return new NodeAssert(NodeAssert.class, node);
+        return new NodeAssert(node, NodeAssert.class);
+    }
+
+    public static RegionAssert assertThat(Region region) {
+        return new RegionAssert(region, RegionAssert.class);
+    }
+
+    public static StyleableAssert assertThat(Styleable styleable) {
+        return new StyleableAssert(styleable, StyleableAssert.class);
     }
 }
 

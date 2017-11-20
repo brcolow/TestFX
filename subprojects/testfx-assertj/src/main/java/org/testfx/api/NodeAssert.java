@@ -24,7 +24,6 @@ import org.testfx.matcher.base.NodeMatchers;
 import org.testfx.service.finder.NodeFinder;
 import org.testfx.service.query.NodeQuery;
 
-import static org.testfx.error.ShouldHaveChild.shouldHaveChild;
 import static org.testfx.error.ShouldHaveText.shouldHaveText;
 
 import java.util.Set;
@@ -34,12 +33,8 @@ import java.util.Set;
  */
 public class NodeAssert extends AbstractAssert<NodeAssert, Node> {
 
-    protected NodeAssert(Class<NodeAssert> selfType, Node actual) {
+    protected NodeAssert(Node actual, Class<?> selfType) {
         super(actual, selfType);
-    }
-
-    protected Node getActual() {
-        return actual;
     }
 
     /**
@@ -77,12 +72,8 @@ public class NodeAssert extends AbstractAssert<NodeAssert, Node> {
      * @param child the child to look for in actual {@link Node}.
      * @return this {@link NodeAssert} for assertions chaining.
      */
-    public NodeAssert hasChild(NodeQuery childNodeQuery) {
+    public NodeAssert hasChild(Node child) {
         isNotNull();
-        childNodeQuery.query()
-        if (!(NodeMatchers.hasChild(childNodeQuery).matches(actual))) {
-            throw Failures.instance().failure(info, shouldHaveChild(actual, child, NodeQuery.));
-        }
         return this;
     }
 

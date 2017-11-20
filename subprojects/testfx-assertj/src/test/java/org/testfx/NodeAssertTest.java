@@ -16,6 +16,7 @@
  */
 package org.testfx;
 
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
@@ -40,7 +41,7 @@ public class NodeAssertTest extends ApplicationTest {
     @Test
     public void node_shouldHaveText() throws Exception {
         // given:
-        Button button = FxToolkit.setupFixture(() -> new Button("foo"));
+        Node button = FxToolkit.setupFixture(() -> new Button("foo"));
 
         // expect:
         assertThat(button).hasText("foo");

@@ -29,11 +29,6 @@ import org.assertj.core.internal.StandardComparisonStrategy;
  */
 public class ShouldHaveText extends BasicErrorMessageFactory {
 
-    public static ErrorMessageFactory shouldHaveText(Object actual, Object other,
-                                                     ComparisonStrategy comparisonStrategy) {
-        return new ShouldHaveText(actual, other, comparisonStrategy);
-    }
-
     public static ErrorMessageFactory shouldHaveText(Object actual, Object other) {
         return new ShouldHaveText(actual, other, StandardComparisonStrategy.instance());
     }

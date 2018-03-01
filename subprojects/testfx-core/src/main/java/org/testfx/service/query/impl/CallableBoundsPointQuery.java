@@ -42,7 +42,7 @@ public class CallableBoundsPointQuery extends PointQueryBase {
     public Point2D query() {
         Bounds bounds = fetchCallableBounds();
         PointQuery boundsQuery = new BoundsPointQuery(bounds)
-            .atPosition(getPosition())
+            .atPosition(getPosition()).onNode(node)
             .atOffset(getOffset());
         return boundsQuery.query();
     }

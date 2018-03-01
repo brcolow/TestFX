@@ -292,7 +292,9 @@ public class FxRobot implements FxRobotInterface {
     @Override
     public PointQuery point(Node node) {
         PointLocator pointLocator = context.getPointLocator();
+        System.out.println("point locator: " + pointLocator);
         Pos pointPosition = context.getPointPosition();
+        System.out.println("pointPosition: " + pointPosition);
         targetWindow(node.getScene().getWindow());
         return pointLocator.point(node).onNode(node).atPosition(pointPosition);
     }

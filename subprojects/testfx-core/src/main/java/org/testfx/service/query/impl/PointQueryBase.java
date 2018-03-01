@@ -30,9 +30,9 @@ abstract public class PointQueryBase implements PointQuery {
     // PRIVATE FIELDS.
     //---------------------------------------------------------------------------------------------
 
-    private Point2D position = new Point2D(0, 0);
+    protected Point2D position = new Point2D(0, 0);
 
-    private Point2D offset = new Point2D(0, 0);
+    protected Point2D offset = new Point2D(0, 0);
 
     //---------------------------------------------------------------------------------------------
     // METHODS.

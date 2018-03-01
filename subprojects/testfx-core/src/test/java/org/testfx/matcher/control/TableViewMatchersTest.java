@@ -44,6 +44,7 @@ public class TableViewMatchersTest extends FxRobot {
     public ExpectedException exception = ExpectedException.none();
 
     public TableView<Map> tableView;
+    TableColumn<Map, String> tableColumn0;
 
     //---------------------------------------------------------------------------------------------
     // FIXTURE METHODS.
@@ -64,7 +65,8 @@ public class TableViewMatchersTest extends FxRobot {
                     ImmutableMap.of("name", "carol"),
                     ImmutableMap.of("name", "dave")
                     ));
-            TableColumn<Map, String> tableColumn0 = new TableColumn<>("name");
+            tableColumn0 = new TableColumn<>("name");
+            tableColumn0.setId("tableColumn0");
             tableColumn0.setCellValueFactory(new MapValueFactory<>("name"));
             TableColumn<Map, Integer> tableColumn1 = new TableColumn<>("age");
             tableColumn1.setCellValueFactory(new MapValueFactory<>("age"));
@@ -183,5 +185,11 @@ public class TableViewMatchersTest extends FxRobot {
         exception.expectMessage("Expected: TableView has row: [63, deedee]\n");
 
         assertThat(tableView, TableViewMatchers.containsRow(1, 63, "deedee"));
+    }
+
+    @Test
+    public void shouldClickOnColumnHeader() throws Exception {
+        clickOn("#tableColumn0");
+        Thread.sleep(50000);
     }
 }

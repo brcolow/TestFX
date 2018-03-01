@@ -59,6 +59,8 @@ public class BoundsPointQuery extends PointQueryBase {
     public Point2D query() {
         Point2D point = pointAtPosition(this.bounds, this.getPosition());
         Point2D offset = getOffset();
+        System.out.println("BoundsPointQuery#query.point: " + point);
+        System.out.println("BoundsPointQuery#query.offet: " + offset);
         return new Point2D(point.getX() + offset.getX(), point.getY() + offset.getY());
     }
 

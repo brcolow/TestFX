@@ -66,4 +66,18 @@ public class CallableBoundsPointQuery extends PointQueryBase {
         }
     }
 
+    @Override
+    public String toString()
+    {
+        try
+        {
+            return String.format("CallableBoundsPointQuery [position = %s, offset = %s, bounds = %s]", position, offset, callableBounds.call());
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }

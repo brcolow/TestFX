@@ -35,6 +35,7 @@ public class BoundsLocatorImpl implements BoundsLocator {
 
     @Override
     public Bounds boundsInSceneFor(Node node) {
+        System.out.println("boundsInSceneFor: " + node);
         Bounds sceneBounds = node.localToScene(node.getBoundsInLocal());
         return limitToVisibleBounds(sceneBounds, node.getScene());
     }
@@ -58,6 +59,8 @@ public class BoundsLocatorImpl implements BoundsLocator {
     @Override
     public Bounds boundsOnScreenFor(Node node) {
         Bounds sceneBounds = boundsInSceneFor(node);
+        System.out.println("sceneBounds: " + sceneBounds);
+        System.out.println("Returning: " + boundsOnScreenFor(sceneBounds, node.getScene()));
         return boundsOnScreenFor(sceneBounds, node.getScene());
     }
 

@@ -15,6 +15,9 @@
  * specific language governing permissions and limitations under the Licence.
  */
 
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+
 // task to add gradle wrapper files.
 task wrapper(type: Wrapper) {
     gradleVersion = "2.3"
@@ -113,9 +116,23 @@ subprojects { subproject ->
 
     // use test logging.
     test {
+        reports.html.enabled = false
         testLogging {
-            events "failed"
-            exceptionFormat "short"
+            // set options for log level LIFECYCLE
+            events TestLogEvent.PASSED, TestLogEvent.SKIPPED,
+                    TestLogEvent.FAILED, TestLogEvent.STANDARD_OUT
+            showExceptions true
+            exceptionFormat TestExceptionFormat.FULL
+            showCauses true
+            showStackTraces true
+
+            // set options for log level DEBUG and INFO
+            debug {
+                events TestLogEvent.STARTED, TestLogEvent.PASSED,
+                        TestLogEvent.SKIPPED, TestLogEvent.FAILED,
+                        TestLogEvent.STANDARD_OUT, TestLogEvent.STANDARD_ERROR
+            }
+            info.events = debug.events
         }
     }
 }

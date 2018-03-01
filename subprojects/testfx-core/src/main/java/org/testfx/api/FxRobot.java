@@ -350,7 +350,9 @@ public class FxRobot implements FxRobotInterface {
     @Unstable(reason = "is missing apidocs")
     public PointQuery point(Node node) {
         PointLocator pointLocator = context.getPointLocator();
+        System.out.println("point locator: " + pointLocator);
         Pos pointPosition = context.getPointPosition();
+        System.out.println("pointPosition: " + pointPosition);
         targetWindow(node.getScene().getWindow());
         return pointLocator.point(node).atPosition(pointPosition);
     }
@@ -681,6 +683,7 @@ public class FxRobot implements FxRobotInterface {
     @Unstable(reason = "is missing apidocs")
     public FxRobot clickOn(PointQuery pointQuery,
                            MouseButton... buttons) {
+        System.out.println("pointQuery: " + pointQuery);
         context.getClickRobot().clickOn(pointQuery, buttons);
         return this;
     }

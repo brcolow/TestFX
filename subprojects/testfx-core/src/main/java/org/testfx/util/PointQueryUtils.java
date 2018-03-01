@@ -46,14 +46,18 @@ public final class PointQueryUtils {
 
     public static Point2D atPositionFactors(Bounds bounds,
                                             Point2D positionFactors) {
+        System.out.println("bounds: " + bounds);
+        System.out.println("positionFactors: " + positionFactors);
         double pointX = lerp(bounds.getMinX(), bounds.getMaxX(), positionFactors.getX());
         double pointY = lerp(bounds.getMinY(), bounds.getMaxY(), positionFactors.getY());
+        System.out.println("PointQueryUtils#atPositionFactors returning: " + new Point2D(pointX, pointY));
         return new Point2D(pointX, pointY);
     }
 
     public static Point2D computePositionFactors(Pos position) {
         double positionX = computePositionX(position.getHpos());
         double positionY = computePositionY(position.getVpos());
+        System.out.println("PointQueryUtils#computePositionFactors, returning: " + new Point2D(positionX, positionY));
         return new Point2D(positionX, positionY);
     }
 

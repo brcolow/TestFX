@@ -592,6 +592,7 @@ public class FxRobot implements FxRobotInterface {
 
     @Override
     public FxRobot clickOn(PointQuery pointQuery, Motion motion, MouseButton... buttons) {
+        System.out.println("pointQuery: " + pointQuery);
         context.getClickRobot().clickOn(pointQuery, motion, buttons);
         return this;
     }

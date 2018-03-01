@@ -37,6 +37,7 @@ public class CallableBoundsPointQuery extends PointQueryBase {
         this.callableBounds = callableBounds;
         this.node = node;
     }
+
     @Override
     public Point2D query() {
         Bounds bounds = fetchCallableBounds();
@@ -53,6 +54,21 @@ public class CallableBoundsPointQuery extends PointQueryBase {
         catch (Exception exception) {
             throw new RuntimeException(exception);
         }
+    }
+
+    @Override
+    public String toString()
+    {
+        try
+        {
+            return String.format("CallableBoundsPointQuery [position = %s, offset = %s, bounds = %s]", position, offset, callableBounds.call());
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
 }

@@ -59,8 +59,8 @@ public final class PointQueryUtils {
      * {@code positionFactors}.
      */
     public static Point2D atPositionFactors(Bounds bounds, Point2D positionFactors) {
-        double pointX = lerp(bounds.getMinX(), bounds.getWidth(), positionFactors.getX());
-        double pointY = lerp(bounds.getMinY(), bounds.getHeight(), positionFactors.getY());
+        double pointX = lerp(bounds.getMinX(), bounds.getMaxX(), positionFactors.getX());
+        double pointY = lerp(bounds.getMinY(), bounds.getMaxY(), positionFactors.getY());
         return new Point2D(pointX, pointY);
     }
 
@@ -81,8 +81,8 @@ public final class PointQueryUtils {
         return new Point2D(positionX, positionY);
     }
 
-    private static double lerp(double start, double distance, double factor) {
-        return start + (distance * factor);
+    private static double lerp(double start, double end, double factor) {
+        return start + ((end - start) * factor);
     }
 
     private static double computePositionX(HPos hPos) {

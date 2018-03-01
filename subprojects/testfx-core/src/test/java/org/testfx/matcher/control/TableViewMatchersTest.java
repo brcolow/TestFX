@@ -86,6 +86,7 @@ public class TableViewMatchersTest extends FxRobot {
 
             tableView.setItems(observableArrayList(row1, row2, row3, row4));
             tableColumn0 = new TableColumn<>("name");
+            tableColumn0.setId("tableColumn0");
             tableColumn0.setCellValueFactory(new MapValueFactory<>("name"));
             TableColumn<Map, Integer> tableColumn1 = new TableColumn<>("age");
             tableColumn1.setCellValueFactory(new MapValueFactory<>("age"));
@@ -398,6 +399,12 @@ public class TableViewMatchersTest extends FxRobot {
                 "but: was [[alice, 30], [bob, 31], [carol, null], [dave, null]]");
 
         assertThat(tableView, TableViewMatchers.containsRow(63, "deedee"));
+    }
+
+    @Test
+    public void shouldClickOnColumnHeader() throws Exception {
+        clickOn("#tableColumn0");
+        Thread.sleep(50000);
     }
 
     @Test

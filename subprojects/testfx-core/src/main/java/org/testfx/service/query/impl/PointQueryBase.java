@@ -31,7 +31,7 @@ public abstract class PointQueryBase implements PointQuery {
 
     private Point2D position = new Point2D(0, 0);
     private Point2D offset = new Point2D(0, 0);
-    protected Node node;
+    private Node node;
 
     @Override
     public Point2D getPosition() {

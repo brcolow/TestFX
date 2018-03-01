@@ -294,7 +294,7 @@ public class FxRobot implements FxRobotInterface {
         PointLocator pointLocator = context.getPointLocator();
         Pos pointPosition = context.getPointPosition();
         targetWindow(node.getScene().getWindow());
-        return pointLocator.point(node).onNode(node).atPosition(pointPosition);
+        return pointLocator.point(node).atPosition(pointPosition);
     }
 
     @Override
@@ -352,7 +352,7 @@ public class FxRobot implements FxRobotInterface {
 
     @Override
     public PointQuery offset(Node node, Pos offsetReferencePos, double offsetX, double offsetY) {
-        return point(node).atPosition(offsetReferencePos).atOffset(offsetX, offsetY);
+        return point(node).atPosition(offsetReferencePos).onNode(node).atOffset(offsetX, offsetY);
     }
 
     @Override

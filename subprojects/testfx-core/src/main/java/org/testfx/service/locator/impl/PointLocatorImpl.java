@@ -62,7 +62,7 @@ public class PointLocatorImpl implements PointLocator {
     @Override
     public PointQuery point(Node node) {
         Callable<Bounds> callable = callableBoundsFor(node);
-        return new CallableBoundsPointQuery(callable, node);
+        return new CallableBoundsPointQuery(callable);
     }
 
     @Override

@@ -24,6 +24,7 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javafx.event.Event;
@@ -34,7 +35,9 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Screen;
+import javafx.stage.Stage;
 import javafx.stage.Window;
+import javafx.stage.WindowEvent;
 
 import org.hamcrest.Matcher;
 import org.testfx.api.FxRobot;
@@ -307,7 +310,24 @@ public final class DebugUtils {
     }
 
     public static Function<StringBuilder, StringBuilder> showFiredEvents(List<Event> events, String indent) {
-        return insertContent("Fired events since test began:", events, indent);
+        List<String> eventsDesc = events.stream().map(event -> {
+            if (event instanceof WindowEvent) {
+                WindowEvent windowEvent = (WindowEvent) event;
+                if (windowEvent.getSource() instanceof Stage && windowEvent.getTarget() instanceof Stage) {
+                    return "WindowEvent [" +
+                            "source = Stage [title = \"" + ((Stage) windowEvent.getSource()).getTitle() + "\"]" +
+                            ", target = Stage [title = \"" + ((Stage) windowEvent.getTarget()).getTitle() + "\"]" +
+                            ", eventType = " + windowEvent.getEventType() +
+                            ", consumed = " + windowEvent.isConsumed() +
+                            "]";
+                } else {
+                    return windowEvent.toString();
+                }
+            } else {
+                return event.toString();
+            }
+        }).collect(Collectors.toList());
+        return insertContent("Fired events since test began:", eventsDesc, indent);
     }
 
     public static Function<CaptureSupport, Image> captureScreenshot() {

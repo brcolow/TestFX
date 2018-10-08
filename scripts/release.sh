@@ -101,11 +101,11 @@ echo "minor: $minor"
 echo "patch: $patch"
 echo "classifier: $classifier"
 
-echo "Would you like to bump the major, minor, or patch version?"
-echo "In x.y.z x = major, y = minor, z = patch"
+echo "Which part of the version would you like to increment?"
+echo "In 'x.y.z':   x = major, y = minor, z = patch"
 echo "Enter the number corresponding to the part you want to increment:"
-options=("Major" "Minor" "Patch");
 
+options=("Major" "Minor" "Patch");
 select bumpType in "${options[@]}"; do
   case $bumpType in
     "Major") major=$((major + 1)); break;;
@@ -115,6 +115,13 @@ select bumpType in "${options[@]}"; do
   esac
 done
 
+echo "In 'x.y.z.-c':   c = classifier"
+echo "In current version: '${currentVersion:1}' the classifier is: '$classifier'"
+read -p "Specify a new version classifier? " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then;
+  echo "Please enter the new version classifier:"
+fi
 newVersion="v$major.$minor.$patch-$classifier"
 echo "The next release of TestFX will be: $newVersion"
 echo "Bumping version in gradle.properties to ${newVersion:1}"

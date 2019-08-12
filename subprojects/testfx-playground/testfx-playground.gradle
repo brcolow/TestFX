@@ -1,0 +1,61 @@
+/*
+plugins {
+    id 'org.openjfx.javafxplugin' version '0.0.8'
+}
+*/
+ext.moduleName = 'org.testfx.playground'
+ext.openjfxVersion = '12'
+
+static def getOSName() {
+    final String osName = System.getProperty("os.name").toLowerCase()
+    if (osName.contains("linux")) {
+        return ("linux")
+    } else if (osName.contains("mac os x") || osName.contains("darwin") || osName.contains("osx")) {
+        return ("mac")
+    } else if (osName.contains("windows")) {
+        return ("win")
+    }
+    return ""
+}
+
+ext.platform = getOSName()
+/*
+javafx {
+    version = '12'
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+*/
+
+dependencies {
+    compile "org.openjfx:javafx-base:${openjfxVersion}:${platform}"
+    compile "org.openjfx:javafx-graphics:${openjfxVersion}:${platform}"
+    compile "org.openjfx:javafx-controls:${openjfxVersion}:${platform}"
+    testCompile project(":testfx-junit5")
+    testCompile group: 'org.hamcrest', name: 'hamcrest', version: '2.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.1.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.1.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+compileTestJava {
+    sourceCompatibility = JavaVersion.VERSION_12
+    targetCompatibility = JavaVersion.VERSION_12
+    inputs.property("moduleName", moduleName)
+    doFirst {
+        options.compilerArgs = [
+                '--module-path', classpath.asPath,
+                '--add-modules', 'org.junit.jupiter.api',
+                '--add-modules', 'org.testfx',
+                '--add-modules', 'org.testfx.junit5',
+                '--add-reads', "$moduleName=org.junit.jupiter.api",
+                '--add-reads', "$moduleName=javafx.controls",
+                '--add-reads', "$moduleName=org.testfx",
+                '--add-reads', "$moduleName=org.testfx.junit5",
+                '--patch-module', "$moduleName=" + files(sourceSets.test.java.srcDirs).asPath,
+        ]
+        classpath = files()
+    }
+}
